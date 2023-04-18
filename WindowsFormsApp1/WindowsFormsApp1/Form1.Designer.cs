@@ -217,24 +217,28 @@
             // 
             // btnResult
             // 
+            this.btnResult.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResult.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnResult.Location = new System.Drawing.Point(255, 528);
             this.btnResult.Name = "btnResult";
             this.btnResult.Size = new System.Drawing.Size(75, 55);
             this.btnResult.TabIndex = 6;
             this.btnResult.Text = "=";
-            this.btnResult.UseVisualStyleBackColor = true;
+            this.btnResult.UseVisualStyleBackColor = false;
             this.btnResult.Click += new System.EventHandler(this.btnResult_Click);
             // 
             // btnClear
             // 
+            this.btnClear.BackColor = System.Drawing.Color.Red;
             this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClear.ForeColor = System.Drawing.Color.White;
             this.btnClear.Location = new System.Drawing.Point(52, 196);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 58);
             this.btnClear.TabIndex = 6;
             this.btnClear.Text = "AC";
-            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btn6
@@ -272,13 +276,15 @@
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.Tomato;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(356, 195);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 58);
             this.button1.TabIndex = 16;
-            this.button1.Text = "Xóa";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Text = "Und";
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
@@ -318,10 +324,12 @@
             this.Controls.Add(this.btn7);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBox);
+            this.KeyPreview = true;
             this.Name = "frm1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Máy tính Ca si nô";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.frm1_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 

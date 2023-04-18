@@ -114,7 +114,7 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.AcceptButton = btnResult;
         }
 
 
@@ -217,7 +217,29 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (txtBox.Text == "") return;
             txtBox.Text = txtBox.Text.Substring(0, txtBox.Text.Length - 1);
+        }
+
+
+ 
+
+        private void btnResult_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+        }
+
+        private void frm1_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void frm1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnResult.PerformClick();
+            }
         }
     }
 }

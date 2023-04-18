@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,43 +20,91 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        
-
-        private void btnHienThi_Click(object sender, EventArgs e)
+        private int checkPriority(string c)
         {
-            
+            if (c == "+" || c == "-") return 1;
+            if (c == "*" || c == "/") return 2;
+            return 0;
+        }
+        private string handleCalculator(string eps)
+        {
+            eps = eps.Replace(" ", "");
+            Queue<string> myQueue = new Queue<string>();
+            Stack<string> myStack = new Stack<string>();
+
+            MatchCollection matches = Regex.Matches(eps, @"([\d]+|[\+\-\*/\(\)])");
+
+            if (!Regex.IsMatch(eps, @"([\d]+|[\+\-\*/\(\)])")) return "Invalid Input";
+
+            foreach (Match match in matches)
+            {
+                if (Regex.IsMatch(match.Value, @"[\d]+")) myQueue.Enqueue(match.Value);
+
+                if (match.Value == "(") myStack.Push(match.Value);
+
+                if (match.Value == ")")
+                {
+                    while (myStack.Peek() != "(") {
+                        myQueue.Enqueue(myStack.Pop());
+                    }
+                    myStack.Pop(); //bỏ luôn cả dấu "("
+                }
+
+                if (Regex.IsMatch(match.Value, @"[\+\-\*/]"))  // nếu là toán tử
+                {
+                    if (myStack.Count == 0) myStack.Push(match.Value);
+                    else
+                    {
+                        if (!Regex.IsMatch(myStack.Peek(), @"[\+\-\*/]")) myStack.Push(match.Value);
+                        else
+                        {
+                            if (checkPriority(match.Value) - checkPriority(myStack.Peek()) > 0) myStack.Push(match.Value);
+                            else
+                            {
+                                while (myStack.Count > 0)
+                                {
+                                    if (!Regex.IsMatch(myStack.Peek(), @"[\+\-\*/]")) break;
+                                    myQueue.Enqueue(myStack.Pop());
+                                }
+                                myStack.Push(match.Value);
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            while (myStack.Count > 0)
+            {
+                myQueue.Enqueue(myStack.Pop());
+            }
+
+            foreach (var elemen in myQueue)
+            {
+                if (Regex.IsMatch(elemen, @"[\+\-\*/]"))
+                {
+                    int num1 = int.Parse(myStack.Pop());
+                    int num2 = int.Parse(myStack.Pop());
+                    if (elemen == "+") myStack.Push((num2 + num1).ToString());
+                    if (elemen == "-") myStack.Push((num2 - num1).ToString());
+                    if (elemen == "*") myStack.Push((num2 * num1).ToString());
+                    if (elemen == "/") myStack.Push((num2 / num1).ToString());
+
+                } else myStack.Push(elemen);
+            }
+
+            return myStack.Peek();
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine(txtBox.Text);
-            int tong = 10;
-            tong += int.Parse(txtBox.Text);
-            Console.WriteLine(tong);
-            txtBox.Text = tong.ToString();
-        }
-
-        private void txt1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        int checkPriority(string c)
-        {
-            if (c == "+" || c == "-") return 1;
-            if (c == "*" || c == "/") return 2;
-            return 0;
-        }
+        
 
         private void btnReset_Click(object sender, EventArgs e)
         {
@@ -68,14 +117,6 @@ namespace WindowsFormsApp1
 
         }
 
-        
-
-        
-
-        private void button12_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btn7_Click(object sender, EventArgs e)
         {
@@ -125,6 +166,58 @@ namespace WindowsFormsApp1
         private void btn0_Click(object sender, EventArgs e)
         {
             txtBox.AppendText("0");
+        }
+
+        private void btnResult_Click(object sender, EventArgs e)
+        {
+            string result = handleCalculator(txtBox.Text);
+            if (result == "Invalid Input") txtBox.Text = result;
+            else
+            {
+                txtBox.Text = txtBox.Text.Replace(" ", "");
+                txtBox.AppendText("=" + result);
+            }
+                
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtBox.Text = "";
+        }
+
+        private void btnDiv_Click(object sender, EventArgs e)
+        {
+            txtBox.AppendText("/");
+        }
+
+        private void btnMult_Click(object sender, EventArgs e)
+        {
+            txtBox.AppendText("*");
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            txtBox.AppendText("+");
+        }
+
+        private void btnSub_Click(object sender, EventArgs e)
+        {
+            txtBox.AppendText("-");
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            txtBox.AppendText(")");
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            txtBox.AppendText("(");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtBox.Text = txtBox.Text.Substring(0, txtBox.Text.Length - 1);
         }
     }
 }
